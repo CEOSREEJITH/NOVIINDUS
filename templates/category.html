@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block metadescription %}
+    {% if category %}
+        {{ category.description|truncatewords:155 }}
+    {% else %}
+        WELCOME TO SREE SHOP
+    {% endif %}
+{% endblock %}
+{% block title %}
+    {% if category %}
+        {{ category.name }} - SREE SHOP
+    {% else %}
+        SEE ORU NEW COLLECTIONS
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+{% if category %}
+
+    <div>
+        <div class="row my_row_class">
+            <div class="mx-aut0">
+            <p><a href="{% url 'shop:allProdCat' %}"> Our PRODUCT collections"</a></p>
+        </div>
+            </div>
+    </div>
+    {% endif %}
+<div class="mx_auto">
+    {% if category %}
+        <img class="my_image" src="{{category.image.url}}" alt="{{category.name}}">
+</div>
+    <br>
+<div>
+        <h1 class="text-center my_title">{{category.name}}</h1>
+        <p class="text-justify">{{category.description}}</p>
+</div>
+    {% else %}
+<div>
+<img class="my_image my_image_padding" src="{% static 'img/banner.png' %}" alt="our products" width="1150px;">
+</div>
+<br>
+<div>
+    <h1 class="text-center my_title">OUR PRODUCT COLLECTIONS </h1>
+    <p class="text-justify">Noviindus Technologies, the company has been founded with a dream – the dream to take advantage of technology to make everything better. Since —, we have been creating distinguishable business identities and solutions for our clients that derive them the desired outcome and rightly serve the purpose. Ever since our first initiative, we strive to make sure that the money they invest in our solution is worth it because we know that they have come to us for not just a website or an app but a way to grow their business. When it comes to customer satisfaction, we are the best Web designing company in Calicut. Our services include Web development, Android & iOS development, Search engine Optimization, Branding, Social media marketing, brand promotion, and Graphic designing. We are the best web designing company in kerala </p>
+</div>
+    {% endif %}
+<div class="container">
+    <div class="row mx_auto">
+        {% for product in products.object_list %}
+        <div class="my_bottom_margin col-9 col-sm-12 col-md-4 xol-lg-4">
+            <div class="card text-center" style="  margin:0 auto;
+  padding:1.5em;
+  width:80%;
+  max-width:350px;
+  height:100%;
+  background: #FFFFFF;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+  border-radius:13px;
+  overflow:hidden;">
+                <a href="{{product.get_url}}"><img class="card-img-top my_image" src="{{product.image.url}}" alt="{{product.name}}"></a>
+            <div class="card-body">
+                <h4>{{product.name}}</h4>
+                <p>{{product.price}}</p>
+            </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="mx-auto">
+        {% if products.paginator.num_pages > 1 %}
+
+        <hr>
+        <div class="footer">
+            {% for pg in products.paginator.page_range %}
+                <a href="?page={{pg}}" class="btn btn-light btn-sm {% if products.number == pg %} active {% endif %}">{{pg}}</a>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+    <br>
+</div>
+{% endblock %}
